@@ -337,7 +337,6 @@ namespace PdfiumViewer.Demo
             this.pdfViewer1.Name = "pdfViewer1";
             this.pdfViewer1.Size = new System.Drawing.Size(710, 546);
             this.pdfViewer1.TabIndex = 0;
-            this.pdfViewer1.ZoomMode = PdfiumViewer.PdfViewerZoomMode.FitHeight;
             // 
             // MainForm
             // 
