@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PdfViewer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Pieter van Ginkel")]
+[assembly: AssemblyCompany("Toppan")]
 [assembly: AssemblyProduct("PdfViewer")]
-[assembly: AssemblyCopyright("Pieter van Ginkel © 2012-2015")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -15,5 +15,5 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 [assembly: Guid("ca63710b-8bc7-4fc5-8c39-210bacf591e8")]
 
-[assembly: AssemblyVersion("2.6.1.0")]
-[assembly: AssemblyFileVersion("2.6.1.0")]
+[assembly: AssemblyVersion("2.6.2.0")]
+[assembly: AssemblyFileVersion("2.6.2.0")]
