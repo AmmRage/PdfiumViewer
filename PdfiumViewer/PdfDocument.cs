@@ -17,6 +17,7 @@ namespace PdfiumViewer
     {
         private bool _disposed;
         private PdfFile _file;
+        private Stream _pdfFileStream = null;
 
         /// <summary>
         /// Initializes a new instance of the PdfDocument class with the provided path.
@@ -52,6 +53,7 @@ namespace PdfiumViewer
         private PdfDocument(Stream stream)
             : this(PdfFile.Create(stream))
         {
+            this._pdfFileStream = stream;
         }
 
         private PdfDocument(string path)
@@ -275,6 +277,17 @@ namespace PdfiumViewer
             _file.Save(stream);
         }
 
+        public void Close()
+        {
+            try
+            {
+                this._pdfFileStream.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         public PdfMatches Search(string text, bool matchCase, bool wholeWord)
         {
             return Search(text, matchCase, wholeWord, 0, PageCount - 1);
@@ -294,7 +307,7 @@ namespace PdfiumViewer
         /// Creates a <see cref="PrintDocument"/> for the PDF document.
         /// </summary>
         /// <returns></returns>
-        public PrintDocument CreatePrintDocument()
+        public PdfPrintDocument CreatePrintDocument()
         {
             return CreatePrintDocument(PdfPrintMode.CutMargin);
         }
@@ -305,7 +318,7 @@ namespace PdfiumViewer
         /// <param name="printMode">Specifies the mode for printing. The default
         /// value for this parameter is CutMargin.</param>
         /// <returns></returns>
-        public PrintDocument CreatePrintDocument(PdfPrintMode printMode)
+        public PdfPrintDocument CreatePrintDocument(PdfPrintMode printMode)
         {
             return new PdfPrintDocument(this, printMode);
         }
@@ -313,6 +326,13 @@ namespace PdfiumViewer
         public PdfPageLinks GetPageLinks(int pageNumber, Size pageSize)
         {
             return _file.GetPageLinks(pageNumber, pageSize);
+        }
+
+        public string GetPageText(int pageindex)
+        {
+            if (pageindex < 0 || pageindex > this.PageCount)
+                return string.Empty;
+            return _file.GetPageText(pageindex);
         }
 
         public void Dispose()

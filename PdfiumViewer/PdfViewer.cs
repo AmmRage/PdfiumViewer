@@ -120,7 +120,7 @@ namespace PdfiumViewer
 
         private void _printButton_Click(object sender, EventArgs e)
         {
-            using (var form = new PrintDialog())
+            using (var form = new PrintDialog()) 
             using (var document = _document.CreatePrintDocument(DefaultPrintMode))
             {
                 form.AllowSomePages = true;

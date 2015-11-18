@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfiumViewer", "PdfiumViewer\PdfiumViewer.csproj", "{438914B6-5D1C-482C-B942-5C0E057EEF6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfiumViewer.Demo", "PdfiumViewer.Demo\PdfiumViewer.Demo.csproj", "{ADD131F6-17EB-4E42-932F-74CBE6DBEEB3}"

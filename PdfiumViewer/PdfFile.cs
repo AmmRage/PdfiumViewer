@@ -158,6 +158,26 @@ namespace PdfiumViewer
             return result;
         }
 
+        public string GetPageText(int pageIndex)
+        {
+            try
+            {
+                var getLength = 65535;
+                var page = NativeMethods.FPDF_LoadPage(_document, pageIndex);
+                var pagetext = NativeMethods.FPDFText_LoadPage(page);
+                var result = new byte[(getLength + 1) * 2];
+
+                NativeMethods.FPDFText_GetText(pagetext, pageIndex, getLength, result);
+
+                string textGot = FPDFEncoding.GetString(result, 0, getLength * 2);
+                return textGot;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+        }
+
         public abstract void Save(Stream stream);
 
         protected void LoadDocument(IntPtr document)
