@@ -332,7 +332,14 @@ namespace PdfiumViewer
         {
             if (pageindex < 0 || pageindex > this.PageCount)
                 return string.Empty;
-            return _file.GetPageText(pageindex);
+            return this._file.GetPageText(pageindex);
+        }
+
+        public string GetPageText(int pageindex, Encoding encoding)
+        {
+            if (pageindex < 0 || pageindex > this.PageCount)
+                return string.Empty;
+            return this._file.GetPageText(pageindex, encoding);
         }
 
         public void Dispose()

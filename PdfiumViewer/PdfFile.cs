@@ -160,6 +160,11 @@ namespace PdfiumViewer
 
         public string GetPageText(int pageIndex)
         {
+            return GetPageText(pageIndex, FPDFEncoding);
+        }
+
+        public string GetPageText(int pageIndex, Encoding encoding)
+        {
             try
             {
                 var getLength = 65535;
@@ -168,8 +173,7 @@ namespace PdfiumViewer
                 var result = new byte[(getLength + 1) * 2];
 
                 NativeMethods.FPDFText_GetText(pagetext, pageIndex, getLength, result);
-
-                string textGot = FPDFEncoding.GetString(result, 0, getLength * 2);
+                string textGot = encoding.GetString(result, 0, getLength * 2);
                 return textGot;
             }
             catch (Exception ex)
