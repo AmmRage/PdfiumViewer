@@ -182,6 +182,57 @@ namespace PdfiumViewer
             }
         }
 
+        public string GetBoundedText(int pageIndex, double left, double top, double right, double bottom)
+        {
+            return GetBoundedText(pageIndex, left, top, right, bottom, FPDFEncoding);
+        }
+
+        public string GetBoundedText(int pageIndex, double left, double top, double right, double bottom, Encoding encoding )
+        {
+            try
+            {
+                var getLength = 65535;
+                var page = NativeMethods.FPDF_LoadPage(_document, pageIndex);
+                var pagetext = NativeMethods.FPDFText_LoadPage(page);
+                var result = new byte[(getLength + 1) * 2];
+
+                NativeMethods.FPDFText_GetBoundedText(pagetext, 
+                    left, top, right, bottom,
+                    result, getLength);
+                string textGot = encoding.GetString(result, 0, getLength * 2);
+                return textGot;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+        }
+
+        public string[] GetMultiBoundedText(int pageIndex, Bound[] bounds)
+        {
+            var ret = new string[bounds.Length];
+            try
+            {
+                var getLength = 65535;
+                var page = NativeMethods.FPDF_LoadPage(_document, pageIndex);
+                var pagetext = NativeMethods.FPDFText_LoadPage(page);
+                var result = new byte[(getLength + 1) * 2];
+
+                for (var i = 0; i < bounds.Length; i++)
+                {
+                    var len = NativeMethods.FPDFText_GetBoundedText(pagetext,
+                            bounds[i].Left, bounds[i].Top, bounds[i].Right, bounds[i].Bottom,
+                            result, getLength);
+                    ret[i] += FPDFEncoding.GetString(result, 0, len * 2);
+                }
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                return ret;
+            }
+        }
+
         public abstract void Save(Stream stream);
 
         protected void LoadDocument(IntPtr document)

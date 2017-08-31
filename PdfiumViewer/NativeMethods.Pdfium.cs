@@ -278,6 +278,14 @@ namespace PdfiumViewer
                 return Imports.FPDFText_GetText(page, start_index, count, result);
             }
         }
+        
+        public static int FPDFText_GetBoundedText(IntPtr page, double left, double top, double right, double bottom, byte[] buffer, int buflen)
+        {
+            lock (LockString)
+            {
+                return Imports.FPDFText_GetBoundedText(page, left, top, right, bottom, buffer, buflen);
+            }
+        }
 
         public static void FPDFText_GetCharBox(IntPtr page, int index, out double left, out double right, out double bottom, out double top)
         {
@@ -459,6 +467,9 @@ namespace PdfiumViewer
 
             [DllImport("pdfium.dll")]
             public static extern int FPDFText_GetText(IntPtr page, int start_index, int count, byte[] result);
+
+            [DllImport("pdfium.dll")]
+            public static extern int FPDFText_GetBoundedText(IntPtr page, double left, double top, double right, double bottom, byte[] buffer, int buflen);
 
             [DllImport("pdfium.dll")]
             public static extern void FPDFText_GetCharBox(IntPtr page, int index, out double left, out double right, out double bottom, out double top);

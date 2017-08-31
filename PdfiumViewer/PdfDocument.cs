@@ -112,12 +112,12 @@ namespace PdfiumViewer
 
             try
             {
-                if ((int)graphicsDpiX != (int)dpiX || (int)graphicsDpiY != (int)dpiY)
+                if ((int) graphicsDpiX != (int) dpiX || (int) graphicsDpiY != (int) dpiY)
                 {
                     var transform = new NativeMethods.XFORM
                     {
-                        eM11 = graphicsDpiX / dpiX,
-                        eM22 = graphicsDpiY / dpiY
+                        eM11 = graphicsDpiX/dpiX,
+                        eM22 = graphicsDpiY/dpiY
                     };
 
                     NativeMethods.SetGraphicsMode(dc, NativeMethods.GM_ADVANCED);
@@ -130,10 +130,10 @@ namespace PdfiumViewer
                 bool success = _file.RenderPDFPageToDC(
                     page,
                     dc,
-                    (int)dpiX, (int)dpiY,
+                    (int) dpiX, (int) dpiY,
                     0, 0, bounds.Width, bounds.Height,
                     FlagsToFPDFFlags(flags)
-                );
+                    );
 
                 NativeMethods.SetViewportOrgEx(dc, point.X, point.Y, out point);
 
@@ -158,7 +158,7 @@ namespace PdfiumViewer
         {
             var size = PageSizes[page];
 
-            return Render(page, (int)size.Width, (int)size.Height, dpiX, dpiY, forPrinting);
+            return Render(page, (int) size.Width, (int) size.Height, dpiX, dpiY, forPrinting);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace PdfiumViewer
         {
             var size = PageSizes[page];
 
-            return Render(page, (int)size.Width, (int)size.Height, dpiX, dpiY, flags);
+            return Render(page, (int) size.Width, (int) size.Height, dpiX, dpiY, flags);
         }
 
         /// <summary>
@@ -188,7 +188,8 @@ namespace PdfiumViewer
         /// <returns>The rendered image.</returns>
         public Image Render(int page, int width, int height, float dpiX, float dpiY, bool forPrinting)
         {
-            return Render(page, width, height, dpiX, dpiY, forPrinting ? PdfRenderFlags.ForPrinting : PdfRenderFlags.None);
+            return Render(page, width, height, dpiX, dpiY,
+                forPrinting ? PdfRenderFlags.ForPrinting : PdfRenderFlags.None);
         }
 
         /// <summary>
@@ -213,7 +214,7 @@ namespace PdfiumViewer
 
             try
             {
-                var handle = NativeMethods.FPDFBitmap_CreateEx(width, height, 4, data.Scan0, width * 4);
+                var handle = NativeMethods.FPDFBitmap_CreateEx(width, height, 4, data.Scan0, width*4);
 
                 try
                 {
@@ -224,10 +225,10 @@ namespace PdfiumViewer
                     bool success = _file.RenderPDFPageToBitmap(
                         page,
                         handle,
-                        (int)dpiX, (int)dpiY,
+                        (int) dpiX, (int) dpiY,
                         0, 0, width, height,
                         FlagsToFPDFFlags(flags)
-                    );
+                        );
 
                     if (!success)
                         throw new Win32Exception();
@@ -247,7 +248,7 @@ namespace PdfiumViewer
 
         private NativeMethods.FPDF FlagsToFPDFFlags(PdfRenderFlags flags)
         {
-            return (NativeMethods.FPDF)(flags & ~PdfRenderFlags.Transparent);
+            return (NativeMethods.FPDF) (flags & ~PdfRenderFlags.Transparent);
         }
 
         /// <summary>
@@ -342,10 +343,14 @@ namespace PdfiumViewer
             return this._file.GetPageText(pageindex, encoding);
         }
 
-        public void Dispose()
+        public string GetBoundedText(int pageIndex, double left, double top, double right, double bottom)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            return this._file.GetBoundedText(pageIndex, left, top, right, bottom);
+        }
+
+        public string[] GetMultiBoundedText(int pageIndex, Bound[] bounds)
+        {
+            return this._file.GetMultiBoundedText(pageIndex, bounds);
         }
 
         protected void Dispose(bool disposing)
@@ -361,5 +366,12 @@ namespace PdfiumViewer
                 _disposed = true;
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
     }
 }
